@@ -172,7 +172,10 @@ export default function ScenarioPlanner({ user, inputs, setInputs, saveInputs, s
   const saveScenario = async () => {
     const name = scenarioName.trim() || `Scenario ${saved.length+1}`
     const snap = { id:Date.now(), name, inputs:{...inputs}, partners:[...partners], govPct, savedAt:new Date().toLocaleDateString(), summary:{ totalCost:data.capital.totalCost, mortgage:data.capital.mortgage, dscr:data.metrics.dscr, surplus:data.operations.surplus, status:fundability.status } }
+    console.log('Current saved array:', saved)
+    console.log('New snap:', snap)
     const next = [...saved, snap]
+    console.log('Next array:', next)
     setSaved(next); await saveSaved(next); setScenarioName('')
   }
 
