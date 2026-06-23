@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+* { box-sizing: border-box; }
+body { background:#020617; color:#e2e8f0; font-family:'DM Sans',ui-sans-serif,system-ui,sans-serif; -webkit-tap-highlight-color:transparent; }
+::-webkit-scrollbar{width:5px;height:5px} ::-webkit-scrollbar-track{background:#0f172a} ::-webkit-scrollbar-thumb{background:#334155;border-radius:4px}
+.metric-mono{font-family:'DM Mono',monospace}
+.glass-card{background:rgba(15,23,42,.8);border:1px solid rgba(99,102,241,.15);backdrop-filter:blur(8px)}
+.tab-active{background:linear-gradient(135deg,#4f46e5,#6366f1);color:white;box-shadow:0 2px 10px rgba(99,102,241,.3)}
+.riverside-gradient{background:linear-gradient(135deg,#020617 0%,#0f1b3d 50%,#020617 100%)}
+.river-badge{background:linear-gradient(90deg,rgba(6,182,212,.15),rgba(99,102,241,.15));border:1px solid rgba(6,182,212,.3)}
+.status-stable{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.3);color:#34d399}
+.status-watch{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:#fbbf24}
+.status-risk{background:rgba(244,63,94,.1);border-color:rgba(244,63,94,.3);color:#fb7185}
+.kpi-glow{box-shadow:0 0 20px rgba(99,102,241,.1)}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes pulse-slow{0%,100%{opacity:1}50%{opacity:.6}}
+.animate-pulse-slow{animation:pulse-slow 2s ease-in-out infinite}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
