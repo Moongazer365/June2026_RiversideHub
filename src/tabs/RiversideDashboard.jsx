@@ -27,7 +27,7 @@ export default function RiversideDashboard({ data, inputs, fundability, b1LiveTo
     setSelectedBuckets(prev => prev.includes(id) ? prev.filter(b => b !== id) : [...prev, id])
   }
 
-  const hubModelCost = data.partners.reduce((sum, p) => sum + (p.lease || 0), 0)
+  const hubModelCost = data.partners.reduce((sum, p) => sum + ((p.lease || 0) + (p.tax || 0)) * 1.05, 0)
   const annualSaving = statusQuoTotal - hubModelCost
   const saving25yr = annualSaving * 25
   const costReduction = statusQuoTotal > 0 ? (annualSaving / statusQuoTotal) * 100 : 0
