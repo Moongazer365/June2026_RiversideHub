@@ -212,12 +212,12 @@ export const analyzeFundability = (data, inputs, partners) => {
   })
 
   const breaks = data.operations.revenue > 0 ? ((data.operations.expenses + data.operations.debtService) / data.operations.revenue) * 100 : 100
-  const breaksPass = breaks <= 90
+  const breaksPass = breaks <= 96
   rules.push({
     name: 'Cost Recovery Envelope',
     value: breaks.toFixed(1),
     unit: '%',
-    target: 90,
+    target: 96,
     pass: breaksPass,
     status: getRuleStatus({ pass: breaksPass, value: breaks, target: 90, comparator: 'lte' }),
     comparator: 'lte',
