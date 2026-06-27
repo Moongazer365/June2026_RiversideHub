@@ -16,7 +16,7 @@ const OVERALL_BADGE_STYLE_BY_COLOR = {
 }
 export default function RiversideDashboard({ data, inputs, fundability, b1LiveTotal, b4Lhi, selectedBuckets, setSelectedBuckets, setActiveTab }) {
   const BUCKET_CONFIG = [
-    { key:'b1', label:'B1 · Operations', value: (+data.operations.expenses || 0) || b1LiveTotal || RIVERSIDE.statusQuo.buckets.b1Operations, color:'#6366f1', locked:true },
+    { key:'b1', label:'B1 · Operations', value: b1LiveTotal || RIVERSIDE.statusQuo.buckets.b1Operations, color:'#6366f1', locked:true },
     { key:'b2', label:'B2 · Deferred Capital', value: RIVERSIDE.statusQuo.buckets.b2DeferredCapital, color:'#f59e0b', locked:false },
   ]
   const bucketOrder = BUCKET_CONFIG.map(b => b.key)
@@ -28,7 +28,7 @@ export default function RiversideDashboard({ data, inputs, fundability, b1LiveTo
   }
 
   const hubModelCost = data.partners.reduce((sum, p) => sum + (+p.lease || 0), 0)
-  const statusQuoAnnual = (selectedBuckets.includes('b1') ? (+data.operations.expenses || 0) : 0)
+  const statusQuoAnnual = (selectedBuckets.includes('b1') ? (b1LiveTotal || RIVERSIDE.statusQuo.buckets.b1Operations) : 0)
     + (selectedBuckets.includes('b2') ? RIVERSIDE.statusQuo.buckets.b2DeferredCapital : 0)
   const annualSaving = statusQuoAnnual - hubModelCost
   const saving25yr = annualSaving * 25
