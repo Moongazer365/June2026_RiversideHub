@@ -249,7 +249,7 @@ export default function ScenarioPlanner({ user, inputs, setInputs, saveInputs, s
   },[data,inputs])
   const partnerTotals = useMemo(() => {
     return data.partners.reduce((acc, p) => {
-      const proposed = (+p.lease || 0) + (+p.tax || 0)
+      const proposed = (+p.lease || 0)
       const contingency = proposed * 0.05
       const totalWithContingency = proposed + contingency
       const savings = (+p.currentRent || 0) - proposed
@@ -557,7 +557,7 @@ export default function ScenarioPlanner({ user, inputs, setInputs, saveInputs, s
             <table className="w-full text-xs">
               <thead><tr className="border-b border-slate-700"><th className="text-left py-3 px-3 text-slate-400">Partner</th><th className="text-right py-3 px-3 text-slate-400">Share %</th><th className="text-right py-3 px-3 text-slate-400">Current Cost</th><th className="text-right py-3 px-3 text-slate-400">Cap Contrib</th><th className="text-right py-3 px-3 text-slate-400">Calc. Lease</th><th className="text-right py-3 px-3 text-slate-400">5% Contingency</th><th className="text-right py-3 px-3 text-slate-400">Total w/ Contingency</th><th className="text-right py-3 px-3 text-slate-400">Savings</th><th className="py-3 px-3"></th></tr></thead>
               <tbody className="divide-y divide-slate-800">
-                {data.partners.map(p=>{const proposed=p.lease+p.tax,contingency=proposed*0.05,totalWithContingency=proposed+contingency,savings=(+p.currentRent||0)-proposed;const isBchcs=p.id===5||String(p.name||'').toUpperCase().includes('BCHCS');return(
+                {data.partners.map(p=>{const proposed=+p.lease||0,contingency=proposed*0.05,totalWithContingency=proposed+contingency,savings=(+p.currentRent||0)-proposed;const isBchcs=p.id===5||String(p.name||'').toUpperCase().includes('BCHCS');return(
                   <tr key={p.id} className="hover:bg-slate-800/30">
                     <td className="py-2 px-3">
                       <div className="flex items-center gap-2">

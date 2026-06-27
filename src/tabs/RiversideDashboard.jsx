@@ -14,9 +14,9 @@ const OVERALL_BADGE_STYLE_BY_COLOR = {
   rose: 'text-rose-400 border-rose-500/40 bg-rose-500/10',
   slate: 'text-slate-300 border-slate-500/40 bg-slate-500/10',
 }
-export default function RiversideDashboard({ data, inputs, fundability, b1LiveTotal, b4Lhi, selectedBuckets, setSelectedBuckets, statusQuoTotal, setActiveTab }) {
+export default function RiversideDashboard({ data, inputs, fundability, b1LiveTotal, b4Lhi, selectedBuckets, setSelectedBuckets, setActiveTab }) {
   const BUCKET_CONFIG = [
-    { key:'b1', label:'B1 · Operations', value: b1LiveTotal || RIVERSIDE.statusQuo.buckets.b1Operations, color:'#6366f1', locked:true },
+    { key:'b1', label:'B1 · Operations', value: (+data.operations.expenses || 0) || b1LiveTotal || RIVERSIDE.statusQuo.buckets.b1Operations, color:'#6366f1', locked:true },
     { key:'b2', label:'B2 · Deferred Capital', value: RIVERSIDE.statusQuo.buckets.b2DeferredCapital, color:'#f59e0b', locked:false },
   ]
   const bucketOrder = BUCKET_CONFIG.map(b => b.key)
@@ -27,10 +27,12 @@ export default function RiversideDashboard({ data, inputs, fundability, b1LiveTo
     setSelectedBuckets(prev => prev.includes(id) ? prev.filter(b => b !== id) : [...prev, id])
   }
 
-  const hubModelCost = data.partners.reduce((sum, p) => sum + ((p.lease || 0) + (p.tax || 0)) * 1.05, 0)
-  const annualSaving = statusQuoTotal - hubModelCost
+  const hubModelCost = data.partners.reduce((sum, p) => sum + (+p.lease || 0), 0)
+  const statusQuoAnnual = (selectedBuckets.includes('b1') ? (+data.operations.expenses || 0) : 0)
+    + (selectedBuckets.includes('b2') ? RIVERSIDE.statusQuo.buckets.b2DeferredCapital : 0)
+  const annualSaving = statusQuoAnnual - hubModelCost
   const saving25yr = annualSaving * 25
-  const costReduction = statusQuoTotal > 0 ? (annualSaving / statusQuoTotal) * 100 : 0
+  const costReduction = statusQuoAnnual > 0 ? (annualSaving / statusQuoAnnual) * 100 : 0
   const simplePayback = annualSaving > 0 ? data.capital.totalCost / annualSaving : null
 
   const bucketData = bucketOrder.map(id => ({
@@ -47,7 +49,7 @@ export default function RiversideDashboard({ data, inputs, fundability, b1LiveTo
     let cumStatusQuo = 0
     let cumHub = 0
     for (let i = 0; i < 25; i++) {
-      cumStatusQuo += statusQuoTotal * Math.pow(1 + INFLATION_RATE, i)
+      cumStatusQuo += statusQuoAnnual * Math.pow(1 + INFLATION_RATE, i)
       cumHub += hubModelCost * Math.pow(1 + INFLATION_RATE, i)
       if (i % 4 === 0 || i === 24) {
         pts.push({
@@ -58,7 +60,7 @@ export default function RiversideDashboard({ data, inputs, fundability, b1LiveTo
       }
     }
     return pts
-  }, [statusQuoTotal, hubModelCost])
+  }, [statusQuoAnnual, hubModelCost])
 
   return (
     <div className="space-y-6">
@@ -124,7 +126,7 @@ export default function RiversideDashboard({ data, inputs, fundability, b1LiveTo
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="Status Quo Annual Cost" value={fmtCAD(statusQuoTotal)} warn mono />
+        <KPICard title="Status Quo Annual Cost" value={fmtCAD(statusQuoAnnual)} warn mono />
         <KPICard title="Hub Model Annual Cost" value={fmtCAD(hubModelCost)} accent mono />
         <KPICard title="Annual Saving" value={fmtCAD(annualSaving)} mono />
         <KPICard title="25-Yr Cumulative Saving" value={fmtCAD(saving25yr)} mono />

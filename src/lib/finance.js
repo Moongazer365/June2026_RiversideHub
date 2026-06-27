@@ -107,7 +107,7 @@ export const calcFinancials = (inputs, partnersInput, sectorId = 'HEALTHCARE', f
   const parkRev  = enriched.reduce((s, p) => s + (+p.parking || 0), 0)
   const otherRev = enriched.reduce((s, p) => s + (+p.other || 0), 0)
   const ds       = +inputs.dscrSupport || 0
-  const potGross = leaseRev + camRev + parkRev + otherRev + ds
+  const potGross = leaseRev + parkRev + otherRev + ds
   const effGross = potGross * (1 - vacLoss)
   const noi      = effGross - totalOpex
   const surplus  = noi - annualDS
